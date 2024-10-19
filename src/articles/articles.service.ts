@@ -9,6 +9,11 @@ export class ArticlesService {
 
   create(createArticleDto: CreateArticleDto) {
     return 'This action adds a new article';
+    return this.prisma.article.create({ data: createArticleDto });
+  }
+
+  findDrafts() {
+    return this.prisma.article.findMany({ where: { published: false } });
   }
 
   findAll() {
@@ -21,13 +26,19 @@ export class ArticlesService {
 
   findOne(id: number) {
     return `This action returns a #${id} article`;
+    return this.prisma.article.findUnique({ where: { id } });
   }
 
   update(id: number, updateArticleDto: UpdateArticleDto) {
     return `This action updates a #${id} article`;
+    return this.prisma.article.update({
+      where: { id },
+      data: updateArticleDto,
+    });
   }
-
+  
   remove(id: number) {
     return `This action removes a #${id} article`;
+    return this.prisma.article.delete({ where: { id } });
   }
 }
